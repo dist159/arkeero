@@ -9,6 +9,11 @@ import FormSelector from "@/ui/shared/form-selector/form-selector";
 import { ModalType, useModals } from "@/providers/modal/modal.provider";
 import Textarea from "@/ui/shared/textarea/textarea";
 import { submit } from "@/helpers/submit";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { UserOneSchema } from '../schemas/user-one.schema';
+
+
+
 
 type ClientFormProps = {
   readonly clientId?: string;
@@ -25,7 +30,7 @@ const ClientForm = (props: ClientFormProps) => {
     setValue,
     watch,
     reset,
-  } = useForm();
+  } = useForm({ resolver: yupResolver(UserOneSchema) });
   const { clients } = useClients();
   const { openModal } = useModals();
   const watchedFields = watch();
@@ -37,7 +42,7 @@ const ClientForm = (props: ClientFormProps) => {
       );
 
       if (currentClient) {
-        Object.keys(currentClient).forEach((key) => {
+        Object.keys(currentClient).forEach((key: any) => {
           setValue(key, currentClient[key]);
         });
       }
@@ -46,7 +51,7 @@ const ClientForm = (props: ClientFormProps) => {
 
   useEffect(() => {
     const subscription = watch(() => {
-      if (setClientOneData) setClientOneData(watchedFields as User);
+      if (setClientOneData) setClientOneData(watchedFields as any);
     });
     return () => subscription.unsubscribe();
   }, [watchedFields]);
@@ -66,7 +71,7 @@ const ClientForm = (props: ClientFormProps) => {
 
   const loadClientOne = () => {
     if (clientOneData)
-      Object.keys(clientOneData).forEach((key) => {
+      Object.keys(clientOneData).forEach((key: any) => {
         setValue(key, clientOneData[key]);
       });
   };
@@ -86,7 +91,7 @@ const ClientForm = (props: ClientFormProps) => {
         title="Nombre"
         register={register("name", { required: true })}
         error={errors.name as unknown as boolean}
-        errorMessage={"Este campo es obligatorio"}
+        errorMessage={errors.name?.message}
       />
       <FormSelector
         title={"Estado"}
@@ -96,14 +101,14 @@ const ClientForm = (props: ClientFormProps) => {
         ]}
         register={register("status", { required: true })}
         error={errors.status as unknown as boolean}
-        errorMessage="Este campo es obligatorio"
+        errorMessage={errors.status?.message}
       />
 
       <Textarea
         register={register("description", { required: true, maxLength: 150 })}
         title={"Descripcion"}
         error={errors.description as unknown as boolean}
-        errorMessage="Este campo es obligatorio y no se permiten mas de 150 caracteres."
+        errorMessage={errors.description?.message}
         placeholder="Description"
       />
 
@@ -116,12 +121,12 @@ const ClientForm = (props: ClientFormProps) => {
         ]}
         register={register("accountType", { required: true })}
         error={errors.accountType as unknown as boolean}
-        errorMessage="Este campo es obligatorio"
+        errorMessage={errors.accountType?.message}
       />
       <FormInput
         title="Contactos"
         error={errors.contacts as unknown as boolean}
-        errorMessage={"Este campo es obligatorio"}
+        errorMessage={errors.contacts?.message}
         register={register("contacts", { required: true })}
       />
 

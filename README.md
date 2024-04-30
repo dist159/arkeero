@@ -32,12 +32,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-##
-
-The ui distribution of this container is in 4 folders molecules, atoms,
-
-if I had more time I woudl add unit test
-
 ## Folder Structure
 
 ```
@@ -64,7 +58,7 @@ arkeero/
 
 ## Theme and styling
 
-I use tailwind as it comes for the deafult setup with next.
+I use tailwind as it comes for the deafult setup with next.js for classes and use the default fonts.
 
 ## Perfomance and optimizacion
 
